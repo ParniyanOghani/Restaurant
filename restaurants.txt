@@ -1,0 +1,71 @@
+class Restaurant:
+    def __init__(self,name,tpy,menu,location,phone_number,working_hours\
+                 ,capacity,delivery):
+        self.name = name
+        self.tpy = tpy
+        self.menu = menu
+        self.location = location
+        self.phone_number = phone_number
+        self.working_hours = working_hours
+        self.capacity = capacity
+        self.delivery = delivery
+        
+    def valid_info (name, price, phone_number, working_hours, capacity, food, time):
+        
+        check_validation = dict()
+        
+        if name.isalpha() and name.isprintable():
+            check_validation['name'] = True
+        if price.isdigit() and price.isdecimal():
+            check_validation['price'] = True
+        if phone_number.isdigit() and phone_number.isdecimal():
+            check_validation['phone_number'] = True
+        if working_hours.isdigit() and working_hours.isdecimal():
+            check_validation['working_hours'] = True
+        if capacity.isdigit() and capacity.isdecimal():
+            check_validation['capacity'] = True
+        if food.isalpha() and food.isprintable():
+            check_validation['food'] = True
+        if time.isdigit() and time.isdecimal():
+            check_validation['time'] = True
+
+
+    def show_the_menu(self):
+        for name in self.menu:
+            print('{0:<10} | {1:^10} | {2:>10}'.format('food'))
+            print('{0:<10} | {1:^10} | {2:>10}'.format('price'))
+
+    def update_menu(self , food ,number):
+        self.menu[food]['number'] = self.menu[food]['number']-number
+
+
+    def billing(self , food , number):
+        return self.menu[food]['price']*number
+
+    def new_customer(self , number , time ,current_capacity):
+        if self.working_hours[0]<time<self.working_hours[1]:
+            if number>current_capacity:
+                print("sorry.we do not have available table for you! ")
+            else:
+                print('welcome!')
+        else:
+            print("sorry.we are closed.")
+
+
+    def take_order(self):
+        self.show_the_menu()
+        food = input("welcome.what do you want?: ")
+        if food in self.menu:
+            number = int(input('how many do you want?: '))
+            if number>self.menu[food]['number']:
+                print("sorry.we do not have enough of that.")
+            else:
+                self.update_menu(food, number)
+                total =self.billing(food, number)
+                print(f'your food is ready and total is {total}')
+                print("Thank you for choosing us!")
+
+        else:
+            print(f"sorry.we do not serve {food} here!")
+
+
